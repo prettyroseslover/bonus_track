@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Личный кабинет
+{% endblock %}
+
+{% block button %}
+<div class="buttons" align="right">
+    <a class="btn btn-outline-primary" href="/account">Личный кабинет</a>
+    <a class="btn btn-outline-primary" href="/busket">Корзина</a>
+	{% if current_user.id == 5 %}
+	<a class="btn btn-outline-primary" href="/admin">Admin</a>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="account_container">
+	<div class="account_info">
+		<h1 class="headerlk" align="center"> Личный кабинет </h1>
+		<h3 class="inf_about_user"> Информация о пользователе </h3>
+
+		<!-- <ul>
+		<li>Логин: {{ current_user.username }}</li>
+		<li>Email: {{ current_user.email }}</li>
+		{% if not flag %}
+			<li>Фамилия: {{ current_user.surname }}</li>
+			<li>Имя: {{ current_user.name }}</li>
+			<li>Отчество: {{ current_user.famname }}</li>
+			<li>Телефон: {{ current_user.phone_number }}</li>
+			<li>Адрес: {{ current_user.location }}</li>
+		{% endif %}
+		</ul> -->
+		
+		<div class="login">{{ current_user.username }}</div>
+
+		<div class="for_flexbox">
+			<div class="info_left">
+				<div class="additional_info_name">Email</div> 
+				<div class="additional_info">{{ current_user.email }}</div>
+				{% if not flag %}
+				<div class="additional_info_name">Телефон</div>
+				<div class="additional_info">{{ current_user.phone_number }}</div>
+				{% endif %}
+			</div>
+			<!-- {% if not flag %} -->
+			<div class="info_centr">
+				<div class="additional_info_name">Фамилия</div> 
+				<div class="additional_info">{{ current_user.surname }}</div>
+				<div class="additional_info_name">Имя</div> 
+				<div class="additional_info">{{ current_user.name }}</div>
+			</div>
+			<div class="info_right">
+				<div class="additional_info_name">Отчество</div> 
+				<div class="additional_info">{{ current_user.famname }}</div>
+				<div class="additional_info_name">Адрес</div> 
+				<div class="additional_info">{{ current_user.location }}</div>
+			</div>
+			<!-- {% endif %} -->
+			<div class="three_btn" align="right">
+				<a href="{{ url_for('update_acc') }}" class="btnlk">Обновить аккаунт</a>
+				<a href="{{ url_for('logout') }}" class="btnlk">Выйти из кабинета</a>
+			</div>
+		</div>
+
+	</div>
+
+
+
+    {% if flag %}
+    <h3 align="center"> Заполните дополнительную информацию! </h3>
+
+		{% if error %}
+		<p class=error><strong>Произошла ошибка:</strong> {{ error }}</p>
+		{% endif %}
+
+		<form method="post">
+			{{ form.csrf_token }}
+			<div class="add_info_placement">
+			<div class="add_info_left">
+				<div class="add_info_space">
+					<div class="additional_info">{{ form.surname.label() }}</div>
+					{{ form.surname() }}
+					{% if form.surname.errors %}
+					{% for error in form.surname.errors %}
+						{{ error }}
+					{% endfor %}
+					{% endif %}
+				</div>
+				<div class="add_info_space">
+					<div class="additional_info">{{ form.name.label() }}</div>
+					{{ form.name() }}
+					{% if form.name.errors %}
+					{% for error in form.name.errors %}
+						{{ error }}
+					{% endfor %}
+					{% endif %}
+				</div>
+				<div class="add_info_space">
+					<div class="additional_info">{{ form.famname.label() }}</div>
+					{{ form.famname() }}
+					{% if form.famname.errors %}
+					{% for error in form.famname.errors %}
+						{{ error }}
+					{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+			<div class="add_info_right">
+				<div class="add_info_space">
+					<div class="additional_info">{{ form.phone_number.label() }}</div>
+					{{ form.phone_number() }}
+					{% if form.phone_number.errors %}
+					{% for error in form.phone_number.errors %}
+						{{ error }}
+					{% endfor %}
+					{% endif %}
+				</div>
+				<div class="add_info_space">
+					<div class="additional_info">{{ form.location.label() }}</div>
+					{{ form.location() }}
+					{% if form.location.errors %}
+					{% for error in form.location.errors %}
+						{{ error }}
+					{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+			</div>	
+
+			<p class="submit_btn_placement">
+			{{ form.submit() }}
+			</p>  
+	</form>
+	{% endif %}
+
+    {% if flag_ord %}
+	<h3 align="center"> История заказов </h3>
+	{% endif %}
+	<br>
+
+	<!-- {% if flag_for_orders %}
+	<p id="under" class="busket_bottom_info">Вы пока ничего не заказывали</p>
+	{% endif %} -->
+	{% if not flag_for_orders %}
+		{% for o in order %}
+			<!-- <div class="order_container"> -->
+				
+					<div id="over" class="alert alert-info1">
+						<div class="order_info"> Id заказа: {{ o.id_zakaz }} </div>
+						<div class="order_info"> Время заказа: {{ o.time_zakaz }}</div>
+					{% if o.id_promocode_used %}
+						<div class="order_info"> Использовался промокод №{{ o.id_promocode_used }}</div>
+					{% endif %}
+					</div>
+				
+			<br>
+		{% endfor %}
+	{% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Полки
+{% endblock %}
+
+{% block button %}
+    <div class="buttons" align="right">
+        {% if flag_btn %}
+        <a class="btn btn-outline-primary" href="/account">Личный кабинет</a>
+        <a class="btn btn-outline-primary" href="/busket">Корзина</a>
+        {% if current_user.id == 5 %}
+        <a class="btn btn-outline-primary" href="/admin">Admin</a>
+        {% endif %}
+
+        {% else %}
+        <a class="btn btn-outline-primary" href="/signin">Регистрация</a>
+        <a class="btn btn-outline-primary" href="/login">Вход</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block body %}
+<div class="shelves">
+    <h2 align="center"> Полки </h2>
+    <h6 align="center"> Выбирайте книгу по вкусу! </h6>
+    <br>
+    <div class="main-content">
+        <div class="filter-block">
+            <div class="Row1">
+                <form method="post">
+
+                {{ form.csrf_token }}              
+                <div class="Column1">
+                    <h6> Сортировка </h6>
+                    <div>
+                        {{ form.sort() }}
+                    </div>
+                </div>
+                <div>
+                    {{ form.submit() }}
+                </div>
+                </form>
+            </div>
+        </div>
+        <div class="catalog-content">
+            {% for b in books %}
+                <div class="Column" onclick='window.location.replace("/shelves/{{ b.id_book }}")';>
+                    <img src="{{ b.image_L }}" alt="{{ b.title }}" class="Cover">
+                    <h4 class="book-name">
+                        {{ b.title }}
+                    </h4>
+                    <p class="author">
+                    {{ b.author }}
+                    </p>
+                    <p class="h52"> 
+                        {{ b.price }}₽
+                    </p>
+                    <a href="/shelves/{{ b.id_book }}" class="btn btn-danger">Детали</a>
+                    {% if b.quantity == 0 %}
+                    <h4> Нет в наличии! </h4>
+                    {% else %}
+                        {% if flag_btn %}
+                        <a href="/shelves/{{b.id_book}}/add" class="btn btn-danger" onclick="event.stopPropagation()">Купить</a>
+                        {% else %}
+                        <a  href="/login" class="btn btn-danger">Купить</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div align="center">
+                {% if books.has_prev %}
+                <a class="btn btn-outline-primary" href="{{ url_for('shelves', page=books.prev_num) }}">Previous</a>
+                {% endif %}
+                {% if books.has_next %}
+                <a class="btn btn-outline-primary" href="{{ url_for('shelves', page=books.next_num) }}">Next</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+</div>
+    
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}
+Оплата
+{% endblock %}
+<!-- <head>
+    <meta charset="UTF-8">
+    <title>Оплата</title>
+</head> -->
+
+{% block button %}
+<div class="buttons" align="right">
+    {% if not flag_btn %}
+    <a class="btn btn-outline-primary" href="/account">Личный кабинет</a>
+    <a class="btn btn-outline-primary" href="/busket">Корзина</a>
+	{% if current_user.id == 5 %}
+	<a class="btn btn-outline-primary" href="/admin">Admin</a>
+	{% endif %}
+
+    {% else %}
+    <a class="btn btn-outline-primary" href="/signin">Регистрация</a>
+    <a class="btn btn-outline-primary" href="/login">Вход</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block body %}
+<!-- <body> -->
+<h1 class="headerlk"> Сканируйте QR-код и оплатите ваш заказ </h1>
+<br>
+<div align="center">
+    <!-- <a href="http://qrcoder.ru" target="_blank" ><img src="http://qrcoder.ru/code/?4817760274166416&6&0" width="174" height="174" border="0" title="QR код"></a> -->
+    <!-- <a href="http://qrcoder.ru" target="_blank" ><img src="D:\Online_BookStore_upd_5.0\Online_BookStore_upd_3.0\app\static\Images\Icons\qr-code.gif" width="174" height="174" border="0" title="QR код"></a> -->
+    <a href="http://qrcoder.ru" target="_blank" ><div id="qr" title="QR код"></div></a>
+
+    <br><br>
+    <p><a align-left href="{{ url_for('busket') }}" class="previous round" id="buy_cont">&#8249;</a></p>
+    <br>
+</div>
+{% endblock %}
+<!-- </body>
+</html> -->

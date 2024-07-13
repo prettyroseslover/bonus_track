@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+О нас
+{% endblock %}
+
+{% block button %}
+<div class="buttons" align="right">
+    {% if flag_btn %}
+    <a class="btn btn-outline-primary" href="/account">Личный кабинет</a>
+    <a class="btn btn-outline-primary" href="/busket">Корзина</a>
+    {% if current_user.id == 5 %}
+	<a class="btn btn-outline-primary" href="/admin">Admin</a>
+	{% endif %}
+
+    {% else %}
+    <a class="btn btn-outline-primary" href="/signin">Регистрация</a>
+     <a class="btn btn-outline-primary" href="/login">Вход</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block body %}
+    <h2 align="center">Давайте познакомимся поближе</h2>
+    <h3 class="h3_new" align="center">Мы рады видеть вас на нашем сайте!</h3>
+    <section class="container">
+        <div class="section first">
+          <div class="cont_title">
+            <h1>Полина Потапова</h1>
+          </div>
+          <div class="cont_desc">
+            <p align="center">Я разработала дизайн сайта и участвовала в <br> внедрении машинного обучения для рекомендаций книг.</p>
+          </div>
+        </div>
+        <div class="section">
+          <div class="cont_title">
+            <h1>Васил Василев</h1>
+          </div>
+          <div class="cont_desc">
+            <p align="center">В этом проекте я занимался написанием кода, <br> отвечал за базу данных и подготовку данных для машинного обучения. <br> Рад, что нам удалось создать качественный сайт, соответствующий современным требованиям.</p>
+          </div>
+        </div>
+      
+      </section>
+{% endblock %}

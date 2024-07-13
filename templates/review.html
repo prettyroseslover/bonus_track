@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Рецензии
+{% endblock %}
+
+{% block button %}
+    <div class="buttons" align="right">
+        {% if flag_btn %}
+        <a class="btn btn-outline-primary" href="/account">Личный кабинет</a>
+        <a class="btn btn-outline-primary" href="/busket">Корзина</a>
+        {% if current_user.id == 5 %}
+        <a class="btn btn-outline-primary" href="/admin">Admin</a>
+        {% endif %}
+
+        {% else %}
+        <a class="btn btn-outline-primary" href="/signin">Регистрация</a>
+        <a class="btn btn-outline-primary" href="/login">Вход</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block body %}
+<div class="recs">
+    <h2 align="center"> Рецензии </h2>
+    <br>
+
+
+<!-- pop-up -->
+
+
+<div class="b-container" >
+
+ <!-- Trigger/Open The Modal -->
+<button id="otziv_button">Помогите нам стать лучше!</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+     <div class="modal-content"> <!-- class="b-popup-content" -->
+      <span class="close">&#10007;</span>      
+            <div class="container_feedback">
+                <form class="form-inline">
+                    <fieldset>
+                    <div class="name_email">
+                        <!--Name-->
+                        <div class="left_info">
+                        <label class="sr-only" for="Name">Имя</label>
+                        <input type="text" class="form-control" id="Name" placeholder="Имя">
+                        </div>
+                        <!--Telegram-->
+                        <div class="right_info">
+                        <label class="sr-only" for="Telegram">Telegram</label>
+                        <input type="text" class="form-control" id="Telegram" placeholder="@имя_в_телеграме">
+                        </div>
+                    </div>
+                    <br>
+                        <div class="message">
+                            <label id="name_for_popup" align="left">Расскажите о том, что мы можем улучшить:</label>
+                            <textarea name="Message" style="width: 100%;" id="msg_text" placeholder="Введите ваше сообщение"></textarea></div>
+                            <br>
+                        
+                        <!--Submit Button-->
+                        <button class="btn-send" formnovalidate onclick="console.log("zdr")" type="submit">Отправить</button>
+    
+                        </form>
+                        </br>
+                        <!-- <div id="output"></div> -->
+                        <p id="output"></p>
+                        </br>
+                    </fieldset>
+    
+                        <!-- moj -->
+                    </div>
+    </div>      
+</div>
+</div>
+   
+   
+    {% for ind in range(sz) %}
+        <div class="alert alert-warning">
+            <div>
+                <a href="/shelves/{{rec[ind].id_book_to_rate}}"><img src="{{ pic[ind] }}" alt="{{ pic[ind]}}" class="Cover" ></a>
+            </div>
+            <div>
+                <h3 align="left" class="h3_new">
+                    {{ book[ind] }}
+                </h3>
+                <br>
+                <h6>
+                    Автор отзыва: {{ auth[ind]}}
+                </h6>
+                <br>
+                <h6>
+                    Оценка: {{rec[ind].rating}}/10
+                </h6>
+                <br>
+                <div>
+                    Комментарий: {{ rec[ind].comment}}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    
+    <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+   
+    const el= document.getElementById('b-popup-content');
+    
+
+</script>
+<script src="static/main.js"></script>
+
+
+<script> //Модал окно
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById("otziv_button");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+        modal.style.display = "none";
+        }
+    }
+    </script>
+    
+    {% endblock %}

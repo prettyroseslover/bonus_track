@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Корзина
+{% endblock %}
+
+{% block button %}
+<div class="buttons" align="right">
+    <a class="btn btn-outline-primary" href="/account">Личный кабинет</a>
+    <a class="btn btn-outline-primary" href="/busket">Корзина</a>
+    {% if current_user.id == 5 %}
+	<a class="btn btn-outline-primary" href="/admin">Admin</a>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="busket_container">
+        <h1 class="headerlk" align="center"> Корзина </h1>
+        {% if flag %}
+        {% for b in book %}
+            <div class="alert alert-busket">
+                <div class="image_of_book">
+                    <img src="{{ b.image_L }}" alt="{{ b.title }}" class="Cover">
+                </div>
+                <div class="busket_info_book">
+                    <h5 class="book_in_busket">
+                        {{ b.title }}
+                    </h5>
+                    <div class="autor_busket">{{ b.author }}</div>
+
+                    <div class="autor_busket">
+                        Кол-во: {{ dict[b.id_book] }}
+                    </div>
+                </div>
+                <div class="price">
+                    {{ dict[b.id_book] * b.price }} &#8381;
+                </div>
+                <div class="btn_in_busket">
+                <a href="/busket/{{b.id_book}}/delete_item" class="btn btn-delete"> Удалить </a>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="promo_left">
+    <div class="promo">
+        <h5 class="book_in_busket"> У меня есть промокод! </h5>
+                {% if error %}
+                <p class=error><strong>Произошла ошибка:</strong> {{ error }}</p>
+                {% endif %}
+                </form>
+                <form method="post">
+                {{ form.csrf_token }}
+                <div>
+                {{ form.promocode() }}
+                </div>
+        <p>
+            {{ form.submit() }}
+        </p>
+                </form>
+
+        <h5 class="sum" align="right"> Всего: {{ total }} &#8381</h5>
+    </div>
+    </div>
+                {% if not flag_log %}
+                <h6 class="busket_bottom_info" align="center"> Для заказа будут использованы ФИО, телефон и адрес, указанные в вашем профиле </h6>
+                <a href="/busket/buy/{{id_promo}}" class="btn btn-buy"> Купить </a>
+                <br><br>
+                {% else %}
+                <h6 class="busket_bottom_info" align="center"> Заполните недостающие данные для заказа </h6>
+                <a href="/update_acc" class="btn btn-buy"> Заполнить </a>
+                <br>
+                {% endif %}
+        {% else %}
+        <h2 class="empty" align="center"> В корзине пока пусто</h2>
+        {% endif %}
+</div>
+{% endblock %}

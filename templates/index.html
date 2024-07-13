@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+  {% block title %}
+      На полках не пылятся
+  {% endblock %}
+
+
+{% block button %}
+  <div class="buttons" align="right">
+      {% if flag_btn %}
+        <a class="btn btn-outline-primary" href="/account">Личный кабинет</a>
+        <a class="btn btn-outline-primary" href="/busket">Корзина</a>
+      {% if current_user.id == 5 %}
+    <a class="btn btn-outline-primary" href="/admin">Admin</a>
+    {% endif %}
+
+      {% else %}
+        <a class="btn btn-outline-primary" href="/signin">Регистрация</a>
+        <a class="btn btn-outline-primary" href="/login">Вход</a>
+      {% endif %}
+  </div>
+  {% endblock %}
+
+
+{% block body %}
+
+<div class="slideshow-container">
+    <div class="mySlides fade">
+      <img src="static/Images/Banners/banner.png" alt="banner_1" style="width:100%">
+    </div>  
+    <div class="mySlides fade">
+      <img src="static/Images/Banners/ban2.png" alt="banner_2" style="width:100%">
+    </div> 
+    <div class="mySlides fade">
+      <img src="static/Images/Banners/ban3.png" alt="banner_3" style="width:100%">
+    </div>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+<br>
+<div style="text-align:center">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+</div>
+<script>
+var slideIndex = 0;
+showSlides();
+var slides,dots,timer;
+
+function showSlides() {
+    slides = document.getElementsByClassName("mySlides");
+    dots = document.getElementsByClassName("dot");
+    for (var i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+    }
+    slideIndex++;
+    if (slideIndex> slides.length) {slideIndex = 1}    
+    for (var i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";  
+    dots[slideIndex-1].className += " active";
+    timer = setTimeout(showSlides, 5000);
+}
+
+function plusSlides(position) {
+    clearTimeout(timer);
+    slideIndex +=position;
+    if (slideIndex> slides.length) {slideIndex = 1}
+    else if(slideIndex<1){slideIndex = slides.length}
+    for (var i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+    }
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";  
+    dots[slideIndex-1].className += " active";
+    timer = setTimeout(showSlides, 5000);
+}
+
+function currentSlide(index) {
+    clearTimeout(timer);
+    if (index> slides.length) {index = 1}
+    else if(index<1){index = slides.length}
+    slideIndex = index;
+    for (var i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+    }
+    for (var i = 0; i <dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[index-1].style.display = "block";  
+    dots[index-1].className += " active";
+    timer = setTimeout(showSlides, 5000);
+}
+</script>
+
+<h2 align="center"> Новинки </h2>
+<div class="Row">
+    <div class="col-container">
+    {% for b in new_books %}
+        <div class="Column" onclick='window.location.replace("/shelves/{{ b.id_book }}")';>
+            <img src="{{ b.image_L }}" alt="{{ b.title }}" class="Cover">
+            
+            <h4 class="book-name">
+                {{ b.title }}
+            </h4>
+            <p class="author">
+              {{ b.author }}
+            </p>
+            <p class="h52"> 
+              {{ b.price }} ₽
+            </p>
+            <a href="/shelves/{{ b.id_book }}" class="btn btn-danger">Детали</a>
+            {% if b.quantity == 0 %}
+            <h4> Нет в наличии! </h4>
+            {% else %}
+                {% if flag_btn %}
+                <a class="btn btn-danger" href="/shelves/{{b.id_book}}/add" onclick="event.stopPropagation()">Купить</a>
+                {% else %}
+                <a class="btn btn-danger" href="/login">Купить</a>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

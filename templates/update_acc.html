@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Личный кабинет
+{% endblock %}
+
+{% block button %}
+<div class="buttons" align="right">
+    <a class="btn btn-outline-primary" href="/account">Личный кабинет</a>
+    <a class="btn btn-outline-primary" href="/busket">Корзина</a>
+	{% if current_user.id == 5 %}
+	<a class="btn btn-outline-primary" href="/admin">Admin</a>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="account_container">
+		<h1 class="headerlk" align="center"> Личный кабинет </h1>
+		<br>
+		<h3 class="additional_info" align="center"> Измените информацию! </h3>
+
+		<form method="post">
+	{{ form.csrf_token }}
+	<div class="add_info_placement">
+		<div class="add_info_left">
+			<div class="add_info_space">
+				<div class="additional_info">{{ form.surname.label() }}</div>
+				{{ form.surname() }}
+				{% if form.surname.errors %}
+				{% for error in form.surname.errors %}
+					{{ error }}
+				{% endfor %}
+				{% endif %}
+			</div>
+			<div class="add_info_space">
+				<div class="additional_info">{{ form.name.label() }}</div>
+				{{ form.name() }}
+				{% if form.name.errors %}
+				{% for error in form.name.errors %}
+					{{ error }}
+				{% endfor %}
+				{% endif %}
+			</div>
+			<div class="add_info_space">
+				<div class="additional_info">{{ form.famname.label() }}</div>
+				{{ form.famname() }}
+				{% if form.famname.errors %}
+				{% for error in form.famname.errors %}
+					{{ error }}
+				{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+		<div class="add_info_right">
+			<div class="add_info_space">
+				<div class="additional_info">{{ form.phone_number.label() }}</div>
+				{{ form.phone_number() }}
+				{% if form.phone_number.errors %}
+				{% for error in form.phone_number.errors %}
+					{{ error }}
+				{% endfor %}
+				{% endif %}
+			</div>
+			<div class="add_info_space">
+				<div class="additional_info">{{ form.location.label() }}</div>
+				{{ form.location() }}
+				{% if form.location.errors %}
+				{% for error in form.location.errors %}
+					{{ error }}
+				{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+		</div>	
+		<p class="submit_btn_placement" align="center">
+			{{ form.submit() }}
+		</p>
+
+		</form>
+		<br>
+		<p><a href="{{ url_for('account') }}"class="previous round">&#8249;</a></p>
+		<br>
+</div>
+
+{% endblock %}

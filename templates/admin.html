@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Admin
+{% endblock %}
+
+{% block button %}
+    <a class="btn btn-outline-primary" href="/account">Личный кабинет</a>
+    <a class="btn btn-outline-primary" href="/busket">Корзина</a>
+    <a class="btn btn-outline-primary" href="/admin">Admin</a>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1 align="center"> Admin Panel </h1>
+
+    {% if error %}
+    <p class=error><strong>Произошла ошибка:</strong> {{ error }}</p>
+    {% endif %}
+
+
+{% endblock %}
